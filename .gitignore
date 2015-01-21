@@ -40,6 +40,5 @@
 *.xcuserdata
 xcuserdata/
 build/
-*.xcuserstate
 
 DerivedData
