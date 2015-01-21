@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+	<block
+		name="poSoundManager" 
+		id="com.potiondesign.soundmanager"
+		git="git://github.com/Potion/Cinder-poSoundManager.git"
+		author="Potion Design"
+		summary="Basic Cinder block for sound management"
+		license="modbsd"
+		version="0.1"
+		url="http://www.potiondesign.com"
+		>
+
+		<supports os="macosx" />
+		<supports os="msw" />
+
+		<header>src/poSoundManager/poSoundManager.h</header>
+		<source>src/poSoundManager/poSoundManager.cpp</source>
+
+		<platform os="macosx">
+			<includePath>src/poSoundManager</includePath>
+		</platform>
+
+		<platform os="msw">
+			<includePath>src/poSoundManager</includePath>
+		</platform>
+
+	</block>
+</cinder>
