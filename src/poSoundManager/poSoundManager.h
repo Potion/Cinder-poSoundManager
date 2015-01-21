@@ -31,14 +31,15 @@ namespace po {
 		typedef boost::signals2::signal<void(unsigned int)> SoundFinishedPlayingSignal;
 		
 		void update();
-        unsigned int play(ci::DataSourceRef dataSource, unsigned int group=0, bool loop = false, bool scatter = false);
-        unsigned int play(ci::audio::BufferRef buffer, unsigned int group=0, bool loop = false, bool scatter = false);
+        unsigned int play(ci::DataSourceRef dataSource, unsigned int group=0, bool loop = false);
+        unsigned int play(ci::audio::BufferRef buffer, unsigned int group=0, bool loop = false);
 		void stop(unsigned int trackID);
         void stopAllInGroup(unsigned int group);
 		void stopAll();
 		void setScatterRange(float min, float max) { mScatterMin = min, mScatterMax = max; }
         void setSilentMode(bool silent);
 		void setGain(unsigned int trackID, float volume);
+		void setPan(unsigned int trackID, float pan);
         
         bool isSoundFinishedPlaying(unsigned int trackID);
 		SoundFinishedPlayingSignal &getSignalSoundFinishedPlaying() { return mSoundFinishedPlaying; }
@@ -63,20 +64,19 @@ namespace po {
                 
                 gain    = context->makeNode(new ci::audio::GainNode(1.0));
                 monitor = context->makeNode(new ci::audio::MonitorNode);
-                pan     = context->makeNode(new ci::audio::Pan2dNode());
-                delay   = context->makeNode(new ci::audio::DelayNode);
+				pan     = context->makeNode(new ci::audio::Pan2dNode());
+				pan->setStereoInputModeEnabled();
             }
             
             void connect(ci::audio::GainNodeRef masterGain) {
                 auto context = ci::audio::Context::master();
-                bufferPlayer >> monitor >> gain >> pan >> masterGain >> delay >> context->getOutput();
+                bufferPlayer >> monitor >> gain >> pan >> masterGain >> context->getOutput();
             }
             
             void disconnect() {
                 gain->disconnectAll();
                 monitor->disconnectAll();
                 pan->disconnectAll();
-                delay->disconnectAll();
                 bufferPlayer->disconnectAll();
             }
         };

@@ -82,39 +82,29 @@ namespace po {
 	}
 	
     
-    unsigned int SoundManager::play(ci::DataSourceRef ref, unsigned int group, bool loop, bool scatter)
+    unsigned int SoundManager::play(ci::DataSourceRef ref, unsigned int group, bool loop)
 	{
         ci::audio::SourceFileRef sourceFile = ci::audio::SourceFile::create(ref);
         ci::audio::BufferRef buffer = sourceFile->loadBuffer();
         
-		return play(buffer, group, loop, scatter);
+		return play(buffer, group, loop);
 	}
 	
     
-    unsigned int SoundManager::play(ci::audio::BufferRef buffer, unsigned int group, bool loop, bool scatter)
+    unsigned int SoundManager::play(ci::audio::BufferRef buffer, unsigned int group, bool loop)
     {
         auto context = ci::audio::Context::master();
         
         //  Create Buffer Player
-        ci::audio::BufferPlayerNodeRef bufferPlayer = context->makeNode(new ci::audio::BufferPlayerNode(buffer));
-        
+		ci::audio::BufferPlayerNodeRef bufferPlayer = context->makeNode(new ci::audio::BufferPlayerNode(buffer));
+		
         if (loop) {
             bufferPlayer->setLoopEnabled();
         }
         
         //  Create Track
         TrackRef t(new Track(bufferPlayer));
-        
-        //  Set Pan and Scatter
-        //  TODO: This needs to be readdressed
-//        // Set random pan for scatter
-//        float randomPan = ci::Rand::randFloat(1.0);
-//        t->pan->setStereoInputModeEnabled();
-//        
-//        // Set random delay for scatter
-//        float randomDelay = ci::Rand::randFloat(mScatterMin, mScatterMax);
-//        t->delay->setDelaySeconds(randomDelay);
-        
+		
         //  Connect track w/Master Gain Node
         t->connect(mMasterGain);
         
@@ -124,7 +114,7 @@ namespace po {
         
         //  Start track
         t->bufferPlayer->start();
-        
+		
         //  Increase track count and return prev id
         unsigned int currentTrackID = mTrackID;
         mTrackID++;
@@ -198,6 +188,13 @@ namespace po {
 	{
 		if (mTracks.find(trackID) != mTracks.end()) {
 			mTracks[trackID]->gain->getParam()->applyRamp(volume, RAMP_TIME, ci::audio::Param::Options().rampFn(&ci::audio::rampInQuad));
+		}
+	}
+	
+	void SoundManager::setPan(unsigned int trackID, float pan)
+	{
+		if (mTracks.find(trackID) != mTracks.end()) {
+			mTracks[trackID]->pan->getParamPos()->setValue(pan);
 		}
 	}
 	
