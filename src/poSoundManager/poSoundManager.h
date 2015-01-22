@@ -15,7 +15,6 @@
 #include "cinder/audio/MonitorNode.h"
 #include "cinder/audio/Param.h"
 #include "cinder/audio/PanNode.h"
-#include "cinder/audio/DelayNode.h"
 #include "cinder/audio/SamplePlayerNode.h"
 
 
@@ -55,7 +54,6 @@ namespace po {
             ci::audio::GainNodeRef gain;
             ci::audio::MonitorNodeRef monitor;
             ci::audio::Pan2dNodeRef pan;
-            ci::audio::DelayNodeRef delay;
             
             Track(ci::audio::BufferPlayerNodeRef bufferPlayer)
             : bufferPlayer(bufferPlayer)
