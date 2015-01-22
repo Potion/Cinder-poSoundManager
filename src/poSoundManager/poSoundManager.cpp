@@ -28,8 +28,6 @@ namespace po {
 	SoundManager::SoundManager()
 	: mTrackID(0)
 	, mAverageVolume(0.f)
-	, mScatterMin(50.0f)
-	, mScatterMax(150.0f)
     , mSilentMode(false)
 	{}
 	
@@ -86,7 +84,6 @@ namespace po {
 	{
         ci::audio::SourceFileRef sourceFile = ci::audio::SourceFile::create(ref);
         ci::audio::BufferRef buffer = sourceFile->loadBuffer();
-        
 		return play(buffer, group, loop);
 	}
 	

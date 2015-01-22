@@ -35,7 +35,6 @@ namespace po {
 		void stop(unsigned int trackID);
         void stopAllInGroup(unsigned int group);
 		void stopAll();
-		void setScatterRange(float min, float max) { mScatterMin = min, mScatterMax = max; }
         void setSilentMode(bool silent);
 		void setGain(unsigned int trackID, float volume);
 		void setPan(unsigned int trackID, float pan);
@@ -87,7 +86,6 @@ namespace po {
 		const float RAMP_TIME = 0.1f;
 		const float PAN_CENTER = 0.5f;
 		
-		float mScatterMin, mScatterMax;
 		unsigned int mTrackID;
         
         bool trackExists(unsigned int trackID);
