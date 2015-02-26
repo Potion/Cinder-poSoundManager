@@ -65,6 +65,10 @@ namespace po {
 				pan->setStereoInputModeEnabled();
             }
             
+            bool isFinished() {
+                return (!bufferPlayer->isEnabled() && !bufferPlayer->isLoopEnabled());
+            }
+            
             void connect(ci::audio::GainNodeRef masterGain) {
                 auto context = ci::audio::Context::master();
                 bufferPlayer >> monitor >> gain >> pan >> masterGain >> context->getOutput();

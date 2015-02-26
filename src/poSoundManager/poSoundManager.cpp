@@ -56,7 +56,7 @@ namespace po {
 		for (auto thisTrack = mTracks.begin(); thisTrack != mTracks.end();) {
             TrackRef t = thisTrack->second;
             
-			if (t!= nullptr && t->bufferPlayer->isEnabled())  {
+			if (t!= nullptr && !t->isFinished())  {
 				numTracksPlaying++;
 				++thisTrack;
 			} else {
