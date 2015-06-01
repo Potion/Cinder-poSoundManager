@@ -9,14 +9,12 @@
 #pragma once
 
 #include <boost/signals2.hpp>
-
 #include "cinder/audio/Context.h"
 #include "cinder/audio/GainNode.h"
 #include "cinder/audio/MonitorNode.h"
 #include "cinder/audio/Param.h"
 #include "cinder/audio/PanNode.h"
 #include "cinder/audio/SamplePlayerNode.h"
-
 
 namespace po {
 	class SoundManager;
@@ -27,18 +25,36 @@ namespace po {
 	public:
 		static SoundManagerRef get();
 		
+		//	Sound finished playing signal
 		typedef boost::signals2::signal<void(unsigned int)> SoundFinishedPlayingSignal;
 		
 		void update();
+		
+		//	Play data source
         unsigned int play(ci::DataSourceRef dataSource, unsigned int group=0, bool loop = false);
+		
+		//	Play audio buffer
         unsigned int play(ci::audio::BufferRef buffer, unsigned int group=0, bool loop = false);
+		
+		//	Stop
 		void stop(unsigned int trackID);
+		
+		//	Stop all in specific group
         void stopAllInGroup(unsigned int group);
+		
+		//	Stop all sounds
 		void stopAll();
+		
+		//	Silence the sounds
         void setSilentMode(bool silent);
+		
+		//	Track gain
 		void setGain(unsigned int trackID, float volume);
+		
+		//	Track panning
 		void setPan(unsigned int trackID, float pan);
-        
+		
+		//	Check if a track finished playing
         bool isSoundFinishedPlaying(unsigned int trackID);
 		SoundFinishedPlayingSignal &getSignalSoundFinishedPlaying() { return mSoundFinishedPlaying; }
 		
@@ -48,12 +64,13 @@ namespace po {
 		void setup();
 		
 	private:
+		//	Track data
         struct Track {
             ci::audio::BufferPlayerNodeRef bufferPlayer;
             ci::audio::GainNodeRef gain;
             ci::audio::MonitorNodeRef monitor;
             ci::audio::Pan2dNodeRef pan;
-            
+			
             Track(ci::audio::BufferPlayerNodeRef bufferPlayer)
             : bufferPlayer(bufferPlayer)
             {

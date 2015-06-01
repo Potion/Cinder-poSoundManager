@@ -7,7 +7,6 @@
 //
 
 #include "poSoundManager.h"
-
 #include "cinder/Rand.h"
 #include "cinder/app/App.h"
 
@@ -165,7 +164,6 @@ namespace po {
         }
         
         return false;
-        
     }
 	
     
