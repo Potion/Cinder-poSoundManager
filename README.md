@@ -14,7 +14,7 @@ The block consists of a single class, **SoundManager**, that provides basic soun
 
 ## Samples
 
-* MultipleSounds: plays a looped sound on mouse down and other sounds on key press.
+* **MultipleSounds:** plays a looped sound on mouse down and other sounds on key press.
 
 ## Getting Started
 
