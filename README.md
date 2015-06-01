@@ -14,22 +14,22 @@ The block consists of a single class, **SoundManager**, that provides basic soun
 
 ## Samples
 
-* MultipleSounds: plays multiple sounds on mouse down and key presses
+* MultipleSounds: plays a looped sound on mouse down and other sounds on key press.
 
 ## Getting Started
 
-Playing a sound:
+Play a sound:
 
 ```C++
 DataSourceRef source = loadAsset("tune.wav");
 po::SoundManager::get()->play(source);
 ```
 
-Stopping a looped sound:
+Stop a looped sound:
 
 ```C++
 DataSourceRef source = loadAsset("tune.wav");
-mTrackID = po::SoundManager::get()->play(source, 0, true); // looped
+unsigned int mTrackID = po::SoundManager::get()->play(source, 0, true); // looped
 
 po::SoundManager::get()->stop(mTrackID);
 ```
