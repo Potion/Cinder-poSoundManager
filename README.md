@@ -1,6 +1,6 @@
 # Cinder-poSoundManager
 
-[Potion's](http://potiondesign.com) simple sound manager block for [Cinder](http://libcinder.org).
+[Potion's](http://potiondesign.com) basic sound management block for [Cinder](http://libcinder.org).
 
 The block consists of a single class, **SoundManager**, that provides basic sound playback control.
 
