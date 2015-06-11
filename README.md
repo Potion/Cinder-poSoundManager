@@ -1,6 +1,6 @@
 # Cinder-poSoundManager
 
-[Potion's](http://potiondesign.com) basic sound management block for [Cinder](http://libcinder.org). Cinder-poSoundManager is released under the [BSD New License](./LICENSE).
+[Potion's](http://potiondesign.com) basic sound management block for [Cinder](http://libcinder.org). It is particularly useful for playing multiple sounds at once without worrying about volume. The volume for all currently playing sounds are averaged to remain under a ```MAX_VOLUME``` threshold internally. Cinder-poSoundManager is released under the [BSD New License](./LICENSE).
 
 The block consists of a single class, **SoundManager**, that provides basic sound playback control.
 
