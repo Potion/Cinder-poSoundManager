@@ -18,11 +18,11 @@
 		<source>src/poSoundManager/poSoundManager.cpp</source>
 
 		<platform os="macosx">
-			<includePath>src/poSpritesheet</includePath>
+			<includePath>src/poSoundManager</includePath>
 		</platform>
 
 		<platform os="msw">
-			<includePath>src/poSpritesheet</includePath>
+			<includePath>src/poSoundManager</includePath>
 		</platform>
 
 	</block>
