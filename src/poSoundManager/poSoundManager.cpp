@@ -211,7 +211,7 @@ namespace po {
 	void SoundManager::setPan(unsigned int trackID, float pan)
 	{
 		if (mTracks.find(trackID) != mTracks.end()) {
-			mTracks[trackID]->pan->getParamPos()->setValue(pan);
+			mTracks[trackID]->pan->setPos(pan);
 		}
 	}
 	
