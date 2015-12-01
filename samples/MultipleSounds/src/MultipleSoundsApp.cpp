@@ -1,4 +1,5 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
 #include "poSoundManager.h"
@@ -7,7 +8,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class MultipleSoundsApp : public AppNative {
+class MultipleSoundsApp : public App {
   public:
 	void setup();
 	void mouseDown( MouseEvent event );	
@@ -74,4 +75,4 @@ void MultipleSoundsApp::keyDown(cinder::app::KeyEvent event)
 	}
 }
 
-CINDER_APP_NATIVE( MultipleSoundsApp, RendererGl )
+CINDER_APP( MultipleSoundsApp, RendererGl )
