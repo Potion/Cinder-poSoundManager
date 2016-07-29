@@ -195,7 +195,7 @@ namespace po {
 	void SoundManager::onFinishedPlaying(unsigned int trackID)
 	{
 		//ci::app::console() << "SoundManager::onFinishedPlaying:: " << trackID << std::endl;
-		mSoundFinishedPlaying(trackID);
+		mSoundFinishedPlaying.emit(trackID);
 	}
 	
 	//

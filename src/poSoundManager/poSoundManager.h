@@ -48,7 +48,7 @@ namespace po {
 		static SoundManagerRef get();
 		
 		//	Sound finished playing signal
-		typedef boost::signals2::signal<void(unsigned int)> SoundFinishedPlayingSignal;
+		typedef ci::signals::Signal<void(unsigned int)> SoundFinishedPlayingSignal;
 		
 		void update();
 		
