@@ -67,6 +67,9 @@ namespace po {
 		//	Stop all sounds
 		void stopAll();
 		
+		//	Remove all tracks
+		void removeAllTracks();
+		
 		//	Silence the sounds
         void setSilentMode(bool silent);
 		

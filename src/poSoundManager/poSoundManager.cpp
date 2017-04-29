@@ -167,7 +167,24 @@ namespace po {
             thisTrack->second->bufferPlayer->stop();
 		}
 	}
-    
+	
+	void SoundManager::removeAllTracks()
+	{
+		stopAll();
+		
+		for (auto thisTrack = mTracks.begin(); thisTrack != mTracks.end();) {
+			//  Remove reference to track
+			TrackRef t = thisTrack->second;
+			onFinishedPlaying(thisTrack->first);
+			t->disconnect();
+			mGroup.erase(thisTrack->first);
+			thisTrack = mTracks.erase(thisTrack);
+		}
+		
+		mGroup.empty();
+		mTracks.empty();
+	}
+	
     
     //  Has the track completed?
     bool SoundManager::isSoundFinishedPlaying(unsigned int trackID)
