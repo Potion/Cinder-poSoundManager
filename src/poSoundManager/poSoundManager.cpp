@@ -138,8 +138,15 @@ namespace po {
         mTrackID++;
         return currentTrackID;
     }
-    
-    
+	
+	void SoundManager::play(unsigned int trackID,bool bLoop )
+	{
+		if(trackExists(trackID)) {
+			mTracks[trackID]->bufferPlayer->setLoopEnabled(bLoop);
+			mTracks[trackID]->bufferPlayer->start();
+		}
+	}
+	
 	void SoundManager::stop(unsigned int trackID)
 	{
         if(trackExists(trackID)) {

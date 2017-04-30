@@ -58,6 +58,9 @@ namespace po {
 		//	Play audio buffer
         unsigned int play(ci::audio::BufferRef buffer, unsigned int group=0, bool loop = false);
 		
+		// play existing track
+		void play( unsigned int trackID, bool bLoop = false );
+		
 		//	Stop
 		void stop(unsigned int trackID);
 		
