@@ -76,16 +76,23 @@ namespace po {
         
 		for (auto thisTrack = mTracks.begin(); thisTrack != mTracks.end();) {
             TrackRef t = thisTrack->second;
-            
-			if (t!= nullptr && !t->isFinished())  {
+		
+			bool bRemove = true;
+			if ( t!= nullptr && !t->isFinished() )  {
 				numTracksPlaying++;
 				++thisTrack;
-			} else {
-                //  Remove reference to track
+				bRemove = false;
+			}
+//			} else if( t!= nullptr && t->isFinished() ){
+//				bRemove = true;
+//			}
+			
+			if( bRemove ) {
+				//  Remove reference to track
 				onFinishedPlaying(thisTrack->first);
-                t->disconnect();
-
-                mGroup.erase(thisTrack->first);
+				t->disconnect();
+				//ci::app::console() << "removing track \n";
+				mGroup.erase(thisTrack->first);
 				thisTrack = mTracks.erase(thisTrack);
 			}
 		}
@@ -115,10 +122,8 @@ namespace po {
         
         //  Create Buffer Player
 		ci::audio::BufferPlayerNodeRef bufferPlayer = context->makeNode(new ci::audio::BufferPlayerNode(buffer));
+		bufferPlayer->setLoopEnabled(loop);
 		
-        if (loop) {
-            bufferPlayer->setLoopEnabled();
-        }
         
         //  Create Track
         TrackRef t(new Track(bufferPlayer));
