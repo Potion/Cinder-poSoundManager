@@ -30,7 +30,6 @@
 
 #pragma once
 
-#include <boost/signals2.hpp>
 #include "cinder/audio/Context.h"
 #include "cinder/audio/GainNode.h"
 #include "cinder/audio/MonitorNode.h"
