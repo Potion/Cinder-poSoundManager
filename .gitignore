@@ -1,33 +1,25 @@
+#OS X Files
+*.DS_STORE
+[Tt]humbs.db
+
 # Compiled Object files
 *.slo
 *.lo
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
 
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
-
-# Fortran module files
-*.mod
 
 # Compiled Static libraries
 *.lai
 *.la
-*.a
-*.lib
 
-# Executables
-*.exe
-*.out
+# Compiled Source #
+*.com
+*.class
+*.obj
 *.app
-
-.DS_STORE
 
 # Xcode Noise
 *~.nib
@@ -39,6 +31,37 @@
 *.xcworkspace
 *.xcuserdata
 xcuserdata/
-build/
-
 DerivedData
+[Bb]uild/
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlog
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
+obj/
+#[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+
+#Misc
+*.zip
+log.text
