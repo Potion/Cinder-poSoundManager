@@ -257,7 +257,7 @@ namespace po
 
 	float SoundManager::getGroupGain( unsigned int groupID )
 	{
-		if( mGroup.size() == 0 ) { return 0.f; }
+		if( mGroup.size() == 0 ) { return 1.f; }
 
 		float volumeSum = 0.f;
 
