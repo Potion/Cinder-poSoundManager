@@ -34,7 +34,6 @@
 
 namespace po
 {
-
 	SoundManagerRef SoundManager::Instance = nullptr;
 
 	SoundManagerRef SoundManager::get()
@@ -51,6 +50,7 @@ namespace po
 		: mTrackID( 0 )
 		, mAverageVolume( 0.f )
 		, mSilentMode( false )
+		, mManualGainMode( false )
 	{}
 
 	void SoundManager::setup()
@@ -60,7 +60,6 @@ namespace po
 		context->enable();
 	}
 
-
 	void SoundManager::setSilentMode( bool silent )
 	{
 		mSilentMode = silent;
@@ -68,7 +67,6 @@ namespace po
 		float gain = mSilentMode ? 0.f : 1.f;
 		mMasterGain->setValue( gain );
 	}
-
 
 	void SoundManager::update()
 	{
@@ -86,30 +84,32 @@ namespace po
 				bRemove = false;
 			}
 
-			//			} else if( t!= nullptr && t->isFinished() ){
-			//				bRemove = true;
-			//			}
-
 			if( bRemove ) {
-				//  Remove reference to track
+				// Remove reference to track
 				onFinishedPlaying( thisTrack->first );
 				t->disconnect();
-				//ci::app::console() << "removing track \n";
 				mGroup.erase( thisTrack->first );
 				thisTrack = mTracks.erase( thisTrack );
 			}
 		}
 
-		// adjust gain
-		mAverageVolume = mSilentMode ? 0 : MAX_VOLUME / numTracksPlaying;
+		// Adjust gain if auto gain is on (on by default)
+		if( !mManualGainMode ) {
 
-		for( auto thisTrack = mTracks.begin(); thisTrack != mTracks.end(); ++thisTrack ) {
-			TrackRef t = thisTrack->second;
-			t->gain->getParam()->applyRamp( mAverageVolume, RAMP_TIME, ci::audio::Param::Options().rampFn( &ci::audio::rampInQuad ) );
+			mAverageVolume = mSilentMode ? 0 : MAX_VOLUME / numTracksPlaying;
+
+			for( auto thisTrack = mTracks.begin(); thisTrack != mTracks.end(); ++thisTrack ) {
+				TrackRef t = thisTrack->second;
+
+				if( t->gain->getParam()->getValue() < 0.f ) {
+					t->gain->getParam()->setValue( 0.f ); // Making sure that minimum is 0
+				}
+
+				t->gain->getParam()->applyRamp( mAverageVolume, RAMP_TIME, ci::audio::Param::Options().rampFn( &ci::audio::rampInQuad ) );
+			}
 		}
 
 	}
-
 
 	unsigned int SoundManager::play( ci::DataSourceRef ref, unsigned int group, bool loop )
 	{
@@ -176,7 +176,6 @@ namespace po
 		}
 	}
 
-
 	void SoundManager::stopAll()
 	{
 		for( auto thisTrack = mTracks.begin(); thisTrack != mTracks.end(); ++thisTrack ) {
@@ -201,13 +200,11 @@ namespace po
 		mTracks.empty();
 	}
 
-
 	//  Has the track completed?
 	bool SoundManager::isSoundFinishedPlaying( unsigned int trackID )
 	{
 		return !trackExists( trackID );
 	}
-
 
 	//  Check whether or not we know about the track still
 	bool SoundManager::trackExists( unsigned int trackID )
@@ -221,19 +218,13 @@ namespace po
 		return false;
 	}
 
-
-	//
 	//	Send a message when a track has finished playing
-	//
 	void SoundManager::onFinishedPlaying( unsigned int trackID )
 	{
-		//ci::app::console() << "SoundManager::onFinishedPlaying:: " << trackID << std::endl;
 		mSoundFinishedPlaying.emit( trackID );
 	}
 
-	//
 	//	Set the track gain, ramps volume up and down
-	//
 	void SoundManager::setGain( unsigned int trackID, float volume )
 	{
 		if( mTracks.find( trackID ) != mTracks.end() ) {

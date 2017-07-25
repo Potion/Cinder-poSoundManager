@@ -89,6 +89,9 @@ namespace po
 			bool isSoundFinishedPlaying( unsigned int trackID );
 			SoundFinishedPlayingSignal& getSignalSoundFinishedPlaying() { return mSoundFinishedPlaying; }
 
+			//  Set manual gain mode to enable volume control on individual tracks
+			void setEnableManualGainMode( bool isEnabled ) { mManualGainMode = isEnabled; };
+
 		protected:
 			SoundManager();
 
@@ -151,6 +154,7 @@ namespace po
 			ci::audio::GainNodeRef mMasterGain;
 
 			bool mSilentMode;
+			bool mManualGainMode;
 
 			void onFinishedPlaying( unsigned int trackID );
 
