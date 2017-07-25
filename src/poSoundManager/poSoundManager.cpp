@@ -108,7 +108,6 @@ namespace po
 				t->gain->getParam()->applyRamp( mAverageVolume, RAMP_TIME, ci::audio::Param::Options().rampFn( &ci::audio::rampInQuad ) );
 			}
 		}
-
 	}
 
 	unsigned int SoundManager::play( ci::DataSourceRef ref, unsigned int group, bool loop )
@@ -118,7 +117,6 @@ namespace po
 		return play( buffer, group, loop );
 	}
 
-
 	unsigned int SoundManager::play( ci::audio::BufferRef buffer, unsigned int group, bool loop )
 	{
 		auto context = ci::audio::Context::master();
@@ -127,18 +125,21 @@ namespace po
 		ci::audio::BufferPlayerNodeRef bufferPlayer = context->makeNode( new ci::audio::BufferPlayerNode( buffer ) );
 		bufferPlayer->setLoopEnabled( loop );
 
-
 		//  Create Track
 		TrackRef t( new Track( bufferPlayer ) );
 
 		//  Connect track w/Master Gain Node
 		t->connect( mMasterGain );
 
-		//Save track
+		//  Use the same gain as the group
+		float volume = getGroupGain( group );
+
+		//  Save track
 		mGroup[mTrackID]    = group;
 		mTracks[mTrackID]   = t;
 
 		//  Start track
+		t->gain->getParam()->setValue( volume );
 		t->bufferPlayer->start();
 
 		//  Increase track count and return prev id
@@ -162,7 +163,6 @@ namespace po
 			mTracks[trackID]->bufferPlayer->setLoopEnabled( false );
 		}
 	}
-
 
 	void SoundManager::stopAllInGroup( unsigned int group )
 	{
@@ -232,6 +232,17 @@ namespace po
 		}
 	}
 
+	float SoundManager::getGain( unsigned int trackID )
+	{
+		if( mTracks.find( trackID ) != mTracks.end() ) {
+			float gain = mTracks[trackID]->gain->getParam()->getValue();
+			return gain;
+		}
+		else {
+			return 0.f;
+		}
+	}
+
 	void SoundManager::setGroupGain( unsigned int groupID, float volume )
 	{
 		for( auto thisGroup = mGroup.begin(); thisGroup != mGroup.end(); ++thisGroup ) {
@@ -242,6 +253,24 @@ namespace po
 				setGain( trackID, volume );
 			}
 		}
+	}
+
+	float SoundManager::getGroupGain( unsigned int groupID )
+	{
+		if( mGroup.size() == 0 ) { return 0.f; }
+
+		float volumeSum = 0.f;
+
+		for( auto thisGroup = mGroup.begin(); thisGroup != mGroup.end(); ++thisGroup ) {
+			unsigned int g = thisGroup->second;
+
+			if( g == groupID ) {
+				unsigned int trackID = thisGroup->first;
+				volumeSum += getGain( trackID );
+			}
+		}
+
+		return volumeSum / ( float )mGroup.size();
 	}
 
 	void SoundManager::setPan( unsigned int trackID, float pan )

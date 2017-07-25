@@ -78,9 +78,11 @@ namespace po
 
 			//	Track gain
 			void setGain( unsigned int trackID, float volume );
+			float getGain( unsigned int trackID );
 
 			//  Group gain
 			void setGroupGain( unsigned int groupID, float volume );
+			float getGroupGain( unsigned int groupID );
 
 			//	Track panning
 			void setPan( unsigned int trackID, float pan );
