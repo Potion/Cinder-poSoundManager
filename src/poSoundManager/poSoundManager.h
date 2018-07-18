@@ -58,6 +58,12 @@ namespace po
 			//	Play audio buffer
 			unsigned int play( ci::audio::BufferRef buffer, unsigned int group = 0, bool loop = false );
 
+			// load track to buffer
+			unsigned int load( ci::audio::BufferRef buffer, unsigned int group = 0, bool loop = false );
+
+			// load track to buffer
+			unsigned int load( ci::DataSourceRef dataSource, unsigned int group = 0, bool loop = false );
+
 			// play existing track
 			void play( unsigned int trackID, bool bLoop = false );
 
@@ -93,6 +99,9 @@ namespace po
 
 			//  Set manual gain mode to enable volume control on individual tracks
 			void setEnableManualGainMode( bool isEnabled ) { mManualGainMode = isEnabled; };
+
+			// Reset track id
+			void resetTrackIds() { mTrackID = 0; mTracks.clear(); mGroup.clear(); }
 
 		protected:
 			SoundManager();

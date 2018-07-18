@@ -117,7 +117,17 @@ namespace po
 		return play( buffer, group, loop );
 	}
 
-	unsigned int SoundManager::play( ci::audio::BufferRef buffer, unsigned int group, bool loop )
+	unsigned int SoundManager::load( ci::DataSourceRef dataSource, unsigned int group, bool loop  )
+	{
+		ci::audio::SourceFileRef sourceFile = ci::audio::SourceFile::create( dataSource );
+		ci::audio::BufferRef buffer = sourceFile->loadBuffer();
+
+		auto trackId = load( buffer, group, loop );
+		return trackId;
+	}
+
+
+	unsigned int SoundManager::load( ci::audio::BufferRef buffer, unsigned int group, bool loop  )
 	{
 		auto context = ci::audio::Context::master();
 
@@ -138,14 +148,25 @@ namespace po
 		mGroup[mTrackID]    = group;
 		mTracks[mTrackID]   = t;
 
-		//  Start track
-		t->gain->getParam()->setValue( volume );
-		t->bufferPlayer->start();
-
 		//  Increase track count and return prev id
 		unsigned int currentTrackID = mTrackID;
 		mTrackID++;
 		return currentTrackID;
+	}
+
+	unsigned int SoundManager::play( ci::audio::BufferRef buffer, unsigned int group, bool loop )
+	{
+		//	Load track
+		auto trackId = load( buffer, group, loop );
+
+		//  Save track
+		auto track = mTracks[trackId];
+
+		//  Start track
+		track->gain->getParam()->setValue( getGroupGain( group ) );
+		track->bufferPlayer->start();
+
+		return trackId;
 	}
 
 	void SoundManager::play( unsigned int trackID, bool bLoop )
